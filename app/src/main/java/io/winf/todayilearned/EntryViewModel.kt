@@ -1,12 +1,18 @@
 package io.winf.todayilearned
 
-import android.arch.lifecycle.ViewModel
-import android.util.Log
-import android.view.View
+import android.app.Application
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.AndroidViewModel
 
-class EntryViewModel : ViewModel() {
 
-    fun onClickSaveEntry(view: View) {
-        Log.d("EntryViewModel", "onClickSaveEntry");
+
+class EntryViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository: EntryRepository = EntryRepository(application)
+
+    internal val allEntries: LiveData<List<Entry>>
+
+    init {
+        allEntries = repository.allEntries
     }
 }

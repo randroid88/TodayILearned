@@ -1,24 +1,32 @@
 package io.winf.todayilearned
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil.setContentView
-import io.winf.todayilearned.databinding.ActivityMainBinding
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
-
-    private val entryViewModel: EntryViewModel by lazy {
-        ViewModelProviders.of(this).get(EntryViewModel::class.java)
-    }
+    private var entryViewModel: EntryViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initBinding()
+        setContentView(R.layout.activity_main)
+        initRecyclerView()
     }
 
-    private fun initBinding() {
-        val binding = setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        binding.entryViewModel = entryViewModel
+    private fun initRecyclerView() {
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+        val adapter = EntryListAdapter(this)
+
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        entryViewModel = ViewModelProviders.of(this).get(EntryViewModel::class.java)
+
+        entryViewModel!!.allEntries.observe(this, Observer { entries ->
+            adapter.updateCachedEntries(entries!!)
+        })
     }
 }
