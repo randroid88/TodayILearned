@@ -27,4 +27,5 @@ Where applicable, I want to try and use the following while building this app:
 * [Databinding Library](https://developer.android.com/topic/libraries/data-binding/)
 * [Room Persistance Library](https://developer.android.com/topic/libraries/architecture/room)
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
+* [Navigation](https://developer.android.com/topic/libraries/architecture/navigation/)
 * [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager/)
