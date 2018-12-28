@@ -1,8 +1,7 @@
 package io.winf.todayilearned
 
 import android.app.Application
-import android.os.AsyncTask
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 
 class EntryRepository internal constructor(application: Application) {
 

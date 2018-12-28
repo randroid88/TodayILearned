@@ -1,9 +1,8 @@
 package io.winf.todayilearned
 
 import android.app.Application
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.AndroidViewModel
-
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 
 
 class EntryViewModel(application: Application) : AndroidViewModel(application) {

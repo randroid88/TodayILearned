@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.widget.TextView
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import io.winf.todayilearned.utils.DateFormatter
 
 
