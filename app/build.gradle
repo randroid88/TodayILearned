@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'androidx.navigation.safeargs'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -51,6 +53,10 @@ dependencies {
     // Lifecycle components
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
+
+    // Navigation
+    implementation 'android.arch.navigation:navigation-fragment-ktx:' + rootProject.navigationVersion
+    implementation 'android.arch.navigation:navigation-ui-ktx:' + rootProject.navigationVersion
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

@@ -3,4 +3,5 @@
     <string name="today_i_learned">Today I learned…</string>
     <string name="save_entry">Save Entry</string>
     <string name="hint_entry">Entry…</string>
+    <string name="home">Home</string>
 </resources>
