@@ -7,17 +7,15 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.winf.todayilearned.util.OneTimeObserver
+import io.winf.todayilearned.utils.TestArgGenerator
 import org.junit.After
-
-import org.junit.Test
-import org.junit.runner.RunWith
-
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
 import java.io.IOException
-import java.nio.charset.Charset
-import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class EntryDaoTest {
@@ -102,20 +100,10 @@ class EntryDaoTest {
     }
 
     private fun givenEntries(numberOfEntries: Int) {
-        var firstEntryDateTime = givenAnyLong() - numberOfEntries
+        var firstEntryDateTime = TestArgGenerator.anyLong() - numberOfEntries
         expectedEntries = List(numberOfEntries) {
-            Entry(givenAnyString(), firstEntryDateTime++)
+            Entry(TestArgGenerator.anyString(), firstEntryDateTime++)
         }
-    }
-
-    private fun givenAnyLong(): Long {
-        return Random().nextLong()
-    }
-
-    private fun givenAnyString(): String {
-        val array = ByteArray(7)
-        Random().nextBytes(array)
-        return String(array, Charset.forName("UTF-8"))
     }
 
     private fun whenEntriesInserted() {
