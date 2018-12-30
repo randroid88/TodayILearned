@@ -29,7 +29,7 @@ class EntryCreatorTest {
         val now = System.currentTimeMillis()
         givenDateTimeIs(now)
 
-        whenEntryCreated(entryCreator, expectedEntryText)
+        whenEntryCreated()
 
         thenEntryTextIsAsSet()
         thenEntryDateTimeIs(now)
@@ -47,8 +47,8 @@ class EntryCreatorTest {
         `when`(mockDateTimeFetcher.now()).thenReturn(dateTime)
     }
 
-    private fun whenEntryCreated(entryCreator: EntryCreator, entryText: String) {
-        actualEntry = entryCreator.create(entryText)
+    private fun whenEntryCreated() {
+        actualEntry = entryCreator.create(expectedEntryText)
     }
 
     private fun thenEntryDateTimeIs(now: Long) {
