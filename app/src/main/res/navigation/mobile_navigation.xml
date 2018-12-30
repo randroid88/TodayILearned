@@ -8,6 +8,27 @@
         android:name="io.winf.todayilearned.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/home_fragment">
+        <action
+            android:id="@+id/next_action"
+            app:destination="@id/entryEditorFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryEditorFragment"
+        android:name="io.winf.todayilearned.EntryEditorFragment"
+        android:label="entry_editor_fragment"
+        tools:layout="@layout/entry_editor_fragment" >
+
+        <action
+            android:id="@+id/next_action"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/home_dest" />
     </fragment>
 
 </navigation>
