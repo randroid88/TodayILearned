@@ -5,15 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 
 
-class EntryViewModel(application: Application) : AndroidViewModel(application) {
+class EntryViewModel(application: Application, private val repository: EntryRepository = EntryRepository(application)) : AndroidViewModel(application) {
 
-    private val repository: EntryRepository = EntryRepository(application)
-
-    internal val allEntries: LiveData<List<Entry>>
-
-    init {
-        allEntries = repository.allEntries
-    }
+    internal val allEntries: LiveData<List<Entry>> = repository.allEntries
 
     internal fun insert(entry: Entry) {
         repository.insert(entry)
