@@ -14,4 +14,8 @@ class EntryViewModel(application: Application) : AndroidViewModel(application) {
     init {
         allEntries = repository.allEntries
     }
+
+    internal fun insert(entry: Entry) {
+        repository.insert(entry)
+    }
 }
