@@ -10,6 +10,8 @@ class EntryViewModel(application: Application, private val repository: EntryRepo
     internal val allEntries: LiveData<List<Entry>> = repository.allEntries
 
     internal fun insert(entry: Entry) {
-        repository.insert(entry)
+        when (entry) {
+            !is EmptyEntry -> repository.insert(entry)
+        }
     }
 }

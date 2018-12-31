@@ -52,12 +52,26 @@ class EntryViewModelTest {
         thenEntryIsInsertedIntoRepository()
     }
 
+    @Test
+    fun insert_EmptyEntry() {
+        givenEntryViewModel()
+        givenEmptyEntry()
+
+        whenInsert()
+
+        thenEntryIsNotInsertedIntoRepository()
+    }
+
     private fun givenValidEntry() {
         entry = Entry(TestArgGenerator.anyString(), TestArgGenerator.anyLong())
     }
 
     private fun givenEntryViewModel() {
         entryViewModel = EntryViewModel(mockApplication, mockRepository)
+    }
+
+    private fun givenEmptyEntry() {
+        entry = EmptyEntry()
     }
 
     private fun whenAllEntries() {
@@ -74,5 +88,9 @@ class EntryViewModelTest {
 
     private fun thenEntryIsInsertedIntoRepository() {
         Mockito.verify(mockRepository, times(1)).insert(entry)
+    }
+
+    private fun thenEntryIsNotInsertedIntoRepository() {
+        Mockito.verify(mockRepository, times(0)).insert(entry)
     }
 }
