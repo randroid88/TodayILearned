@@ -8,6 +8,12 @@
         android:name="io.winf.todayilearned.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/home_fragment">
+
+        <argument
+            android:name="entryText"
+            app:argType="string"
+            android:defaultValue=" "/>
+
         <action
             android:id="@+id/next_action"
             app:destination="@id/entryEditorFragment"
@@ -19,11 +25,12 @@
     <fragment
         android:id="@+id/entryEditorFragment"
         android:name="io.winf.todayilearned.EntryEditorFragment"
-        android:label="entry_editor_fragment"
+        android:label="@string/entry_editor"
         tools:layout="@layout/entry_editor_fragment" >
 
         <action
             android:id="@+id/next_action"
+            app:destination="@id/home_dest"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
