@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context!!)
 
-        entryViewModel = ViewModelProviders.of(this).get(EntryViewModel::class.java)
+        entryViewModel = ViewModelProviders.of(this, EntryViewModelFactory(activity!!.application, EntryRepository(activity!!.application))).get(EntryViewModel::class.java)
 
         entryViewModel!!.allEntries.observe(this, Observer { entries ->
             adapter.updateCachedEntries(entries!!)
