@@ -35,6 +35,13 @@ class EntryEditorFragment : Fragment() {
     }
 
     private fun navigate() {
-        findNavController().navigate(EntryEditorFragmentDirections.nextAction())
+        val nextAction = EntryEditorFragmentDirections.nextAction()
+        nextAction.entryText = getEntryText()
+        findNavController().navigate(nextAction)
+    }
+
+    private fun getEntryText(): String {
+        val editText = view!!.findViewById(R.id.edit_entry) as EditText
+        return editText.text.toString()
     }
 }

@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.winf.todayilearned.utils.EntryCreator
 
 class HomeFragment : Fragment() {
     override fun onCreateView(
@@ -22,6 +23,9 @@ class HomeFragment : Fragment() {
 
         val rootView = inflater.inflate(R.layout.home_fragment, container, false)
         initRecyclerView(rootView)
+
+        val safeArgs = HomeFragmentArgs.fromBundle(arguments!!)
+        savePossibleNewEntry(safeArgs.entryText)
 
         return rootView
     }
@@ -46,8 +50,13 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.nextAction())
+            val nextAction = HomeFragmentDirections.nextAction()
+            findNavController().navigate(nextAction)
         }
+    }
+
+    private fun savePossibleNewEntry(entryText: String) {
+        entryViewModel!!.insert(EntryCreator().create(entryText))
     }
 
 }
