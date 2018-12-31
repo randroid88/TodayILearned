@@ -1,5 +1,6 @@
 package io.winf.todayilearned.utils
 
+import io.winf.todayilearned.EmptyEntry
 import io.winf.todayilearned.Entry
 import org.junit.Test
 
@@ -33,6 +34,32 @@ class EntryCreatorTest {
 
         thenEntryTextIsAsSet()
         thenEntryDateTimeIs(now)
+    }
+
+    @Test
+    fun entryCreated_blankText() {
+        givenEntryCreator()
+        givenTextIs(" ")
+        givenDateTimeIs(TestArgGenerator.anyLong())
+
+        whenEntryCreated()
+
+        thenEmptyEntryCreated()
+    }
+
+    @Test
+    fun entryCreated_emptyText() {
+        givenEntryCreator()
+        givenTextIs("")
+        givenDateTimeIs(TestArgGenerator.anyLong())
+
+        whenEntryCreated()
+
+        thenEmptyEntryCreated()
+    }
+
+    private fun thenEmptyEntryCreated() {
+        assert(actualEntry is EmptyEntry)
     }
 
     private fun givenEntryCreator() {
