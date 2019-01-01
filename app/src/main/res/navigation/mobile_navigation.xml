@@ -9,11 +9,6 @@
         android:label="@string/home"
         tools:layout="@layout/home_fragment">
 
-        <argument
-            android:name="entryText"
-            app:argType="string"
-            android:defaultValue=" "/>
-
         <action
             android:id="@+id/next_action"
             app:destination="@id/entryEditorFragment"
@@ -30,13 +25,11 @@
 
         <action
             android:id="@+id/next_action"
-            app:destination="@id/home_dest"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/home_dest"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/home_dest" />
     </fragment>
 
 </navigation>
