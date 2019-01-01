@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import io.winf.todayilearned.utils.EntryCreator
+import java.lang.Exception
 
 class HomeFragment : Fragment() {
     override fun onCreateView(
@@ -24,13 +24,10 @@ class HomeFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.home_fragment, container, false)
         initRecyclerView(rootView)
 
-        val safeArgs = HomeFragmentArgs.fromBundle(arguments!!)
-        savePossibleNewEntry(safeArgs.entryText)
-
         return rootView
     }
 
-    private var entryViewModel: EntryViewModel? = null
+    private lateinit var entryViewModel: EntryViewModel
 
     private fun initRecyclerView(rootView: View) {
         val recyclerView = rootView.findViewById(R.id.recyclerview) as RecyclerView
@@ -39,10 +36,12 @@ class HomeFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context!!)
 
-        entryViewModel = ViewModelProviders.of(this, EntryViewModelFactory(activity!!.application, EntryRepository(activity!!.application))).get(EntryViewModel::class.java)
+        entryViewModel = activity?.run {
+            ViewModelProviders.of(this, EntryViewModelFactory(this.application, EntryRepository(this.application))).get(EntryViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
 
-        entryViewModel!!.allEntries.observe(this, Observer { entries ->
-            adapter.updateCachedEntries(entries!!)
+        entryViewModel.allEntries.observe(this, Observer { entries ->
+            adapter.updateCachedEntries(entries)
         })
     }
 
@@ -53,10 +52,6 @@ class HomeFragment : Fragment() {
             val nextAction = HomeFragmentDirections.nextAction()
             findNavController().navigate(nextAction)
         }
-    }
-
-    private fun savePossibleNewEntry(entryText: String) {
-        entryViewModel!!.insert(EntryCreator().create(entryText))
     }
 
 }
