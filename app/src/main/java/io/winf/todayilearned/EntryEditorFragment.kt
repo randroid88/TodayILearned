@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import io.winf.todayilearned.data.Entry
 import io.winf.todayilearned.data.EntryRepository
 import java.lang.Exception
 
@@ -17,11 +19,14 @@ class EntryEditorFragment : Fragment() {
 
     private lateinit var entryViewModel: EntryViewModel
     private var entryId: Int = 0
+    private var existingEntry: Entry? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(false)
 
         setupEntryViewModel()
+
+        getExistingEntryId()
 
         return inflater.inflate(R.layout.entry_editor_fragment, container, false)
     }
@@ -29,7 +34,10 @@ class EntryEditorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupSaveButton(view)
+        val entryEditText = view.findViewById(R.id.edit_entry) as EditText
+
+        setTextFromExistingEntry(entryEditText)
+        setupSaveButton(view, entryEditText)
     }
 
     private fun setupEntryViewModel() {
@@ -39,15 +47,28 @@ class EntryEditorFragment : Fragment() {
         } ?: throw Exception("Invalid Activity")
     }
 
-    private fun setupSaveButton(view: View) {
+    private fun getExistingEntryId() {
+        val safeArgs = EntryEditorFragmentArgs.fromBundle(arguments!!)
+        entryId = safeArgs.entryId
+    }
+
+    private fun setTextFromExistingEntry(entryEditText: EditText) {
+        entryViewModel.getEntry(entryId).observe(this, Observer { entry ->
+            entry?.let {
+                this.existingEntry = it
+                entryEditText.setText(it.entryText)
+            }
+        })
+    }
+
+    private fun setupSaveButton(view: View, entryEditText: EditText) {
         val saveEntryButton = view.findViewById(R.id.button_save_entry) as Button
 
         saveEntryButton.setOnClickListener {
-            val entryEditText = view.findViewById<EditText>(R.id.edit_entry)
             val entryText = getEntryText(entryEditText)
 
             closeKeyboard(entryEditText)
-            saveNewEntry(entryText)
+            saveEntry(entryText)
             navigate()
         }
     }
@@ -56,7 +77,7 @@ class EntryEditorFragment : Fragment() {
         entryEditText.onEditorAction(EditorInfo.IME_ACTION_DONE)
     }
 
-    private fun saveNewEntry(entryText: String) {
+    private fun saveEntry(entryText: String) {
         entryViewModel.updateOrInsert(entryId, entryText)
     }
 
