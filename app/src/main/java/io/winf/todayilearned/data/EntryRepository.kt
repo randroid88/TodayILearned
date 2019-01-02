@@ -15,9 +15,19 @@ class EntryRepository internal constructor(application: Application) {
         allEntries = entryDao.orderedEntries
     }
 
+    fun getEntry(entryId: Int): LiveData<Entry> {
+        return entryDao.getEntry(entryId)
+    }
+
     fun insert(entry: Entry) {
         doAsync {
             entryDao.insert(entry)
+        }
+    }
+
+    fun updateEntry(entryId: Int, entryText: String) {
+        doAsync {
+            entryDao.updateEntry(entryId, entryText)
         }
     }
 }

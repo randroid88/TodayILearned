@@ -11,12 +11,12 @@ import android.widget.EditText
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.winf.todayilearned.data.EntryRepository
-import io.winf.todayilearned.utils.EntryCreator
 import java.lang.Exception
 
 class EntryEditorFragment : Fragment() {
 
     private lateinit var entryViewModel: EntryViewModel
+    private var entryId: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(false)
@@ -57,7 +57,7 @@ class EntryEditorFragment : Fragment() {
     }
 
     private fun saveNewEntry(entryText: String) {
-        entryViewModel.insert(EntryCreator().create(entryText))
+        entryViewModel.updateOrInsert(entryId, entryText)
     }
 
     private fun getEntryText(entryEditText: EditText): String {
