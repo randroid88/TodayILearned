@@ -1,4 +1,4 @@
-package io.winf.todayilearned
+package io.winf.todayilearned.data
 
 import android.content.Context
 import android.os.AsyncTask

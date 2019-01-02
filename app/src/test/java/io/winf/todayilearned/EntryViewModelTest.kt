@@ -2,6 +2,9 @@ package io.winf.todayilearned
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import io.winf.todayilearned.data.EmptyEntry
+import io.winf.todayilearned.data.Entry
+import io.winf.todayilearned.data.EntryRepository
 import io.winf.todayilearned.utils.TestArgGenerator
 import org.junit.Assert.assertEquals
 import org.junit.Before

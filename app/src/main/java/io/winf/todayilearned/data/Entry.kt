@@ -1,4 +1,4 @@
-package io.winf.todayilearned
+package io.winf.todayilearned.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import io.winf.todayilearned.data.EntryRepository
 import io.winf.todayilearned.utils.EntryCreator
 import java.lang.Exception
 

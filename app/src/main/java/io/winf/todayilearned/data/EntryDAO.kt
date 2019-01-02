@@ -1,4 +1,4 @@
-package io.winf.todayilearned
+package io.winf.todayilearned.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

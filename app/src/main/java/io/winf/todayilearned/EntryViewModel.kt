@@ -3,6 +3,9 @@ package io.winf.todayilearned
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import io.winf.todayilearned.data.EmptyEntry
+import io.winf.todayilearned.data.Entry
+import io.winf.todayilearned.data.EntryRepository
 
 
 class EntryViewModel(application: Application, private val repository: EntryRepository) : AndroidViewModel(application) {

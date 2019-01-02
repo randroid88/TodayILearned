@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import io.winf.todayilearned.data.Entry
 import io.winf.todayilearned.utils.DateFormatter
 
 

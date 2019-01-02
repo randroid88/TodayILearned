@@ -1,7 +1,7 @@
 package io.winf.todayilearned.utils
 
-import io.winf.todayilearned.EmptyEntry
-import io.winf.todayilearned.Entry
+import io.winf.todayilearned.data.EmptyEntry
+import io.winf.todayilearned.data.Entry
 import org.junit.Test
 
 import org.junit.Assert.*

@@ -1,4 +1,4 @@
-package io.winf.todayilearned
+package io.winf.todayilearned.data
 
 import android.app.Application
 import androidx.lifecycle.LiveData

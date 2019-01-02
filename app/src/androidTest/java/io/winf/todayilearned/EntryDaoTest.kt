@@ -6,6 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import io.winf.todayilearned.data.Entry
+import io.winf.todayilearned.data.EntryDao
+import io.winf.todayilearned.data.EntryRoomDatabase
 import io.winf.todayilearned.util.OneTimeObserver
 import io.winf.todayilearned.utils.TestArgGenerator
 import org.junit.After
