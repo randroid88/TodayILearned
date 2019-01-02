@@ -14,46 +14,56 @@ import io.winf.todayilearned.utils.EntryCreator
 import java.lang.Exception
 
 class EntryEditorFragment : Fragment() {
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+
+    private lateinit var entryViewModel: EntryViewModel
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(false)
 
-        entryViewModel = activity?.run {
-            ViewModelProviders.of(this, EntryViewModelFactory(this.application, EntryRepository(this.application))).get(EntryViewModel::class.java)
-        } ?: throw Exception("Invalid Activity")
+        setupEntryViewModel()
 
         return inflater.inflate(R.layout.entry_editor_fragment, container, false)
     }
 
-    private lateinit var entryViewModel: EntryViewModel
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.button_save).setOnClickListener {
-            closeKeyboard(view)
-            saveNewEntry()
+        setupSaveButton(view)
+    }
+
+    private fun setupEntryViewModel() {
+        // Scoped to the activity so it can be used by multiple fragments
+        entryViewModel = activity?.run {
+            ViewModelProviders.of(this, EntryViewModelFactory(this.application, EntryRepository(this.application))).get(EntryViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+    }
+
+    private fun setupSaveButton(view: View) {
+        val saveEntryButton = view.findViewById(R.id.button_save_entry) as Button
+
+        saveEntryButton.setOnClickListener {
+            val entryEditText = view.findViewById<EditText>(R.id.edit_entry)
+            val entryText = getEntryText(entryEditText)
+
+            closeKeyboard(entryEditText)
+            saveNewEntry(entryText)
             navigate()
         }
     }
 
-    private fun saveNewEntry() {
-        entryViewModel.insert(EntryCreator().create(getEntryText()))
+    private fun closeKeyboard(entryEditText: EditText) {
+        entryEditText.onEditorAction(EditorInfo.IME_ACTION_DONE)
     }
 
-    private fun closeKeyboard(view: View) {
-        view.findViewById<EditText>(R.id.edit_entry).onEditorAction(EditorInfo.IME_ACTION_DONE)
+    private fun saveNewEntry(entryText: String) {
+        entryViewModel.insert(EntryCreator().create(entryText))
+    }
+
+    private fun getEntryText(entryEditText: EditText): String {
+        return entryEditText.text.toString()
     }
 
     private fun navigate() {
         findNavController().navigate(EntryEditorFragmentDirections.nextAction())
-    }
-
-    private fun getEntryText(): String {
-        val editText = view!!.findViewById(R.id.edit_entry) as EditText
-        return editText.text.toString()
     }
 }

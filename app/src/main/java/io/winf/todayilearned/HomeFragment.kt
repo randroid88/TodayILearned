@@ -14,42 +14,54 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.lang.Exception
 
 class HomeFragment : Fragment() {
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+
+    private lateinit var entryViewModel: EntryViewModel
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(false)
 
         val rootView = inflater.inflate(R.layout.home_fragment, container, false)
-        initRecyclerView(rootView)
+
+        setupEntryViewModel()
+        setupListOfEntries(rootView)
 
         return rootView
     }
 
-    private lateinit var entryViewModel: EntryViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupCreateEntryFAB(view)
+    }
 
-    private fun initRecyclerView(rootView: View) {
+    private fun setupEntryViewModel() {
+        // Scoped to the activity so it can be used by multiple fragments
+        entryViewModel = activity?.run {
+            ViewModelProviders.of(this, EntryViewModelFactory(this.application, EntryRepository(this.application))).get(EntryViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+    }
+
+    private fun setupListOfEntries(rootView: View) {
         val recyclerView = rootView.findViewById(R.id.recyclerview) as RecyclerView
         val adapter = EntryListAdapter(context!!)
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context!!)
 
-        entryViewModel = activity?.run {
-            ViewModelProviders.of(this, EntryViewModelFactory(this.application, EntryRepository(this.application))).get(EntryViewModel::class.java)
-        } ?: throw Exception("Invalid Activity")
+        observeChangesToEntries(adapter)
+    }
 
+    private fun observeChangesToEntries(adapter: EntryListAdapter) {
         entryViewModel.allEntries.observe(this, Observer { entries ->
             adapter.updateCachedEntries(entries)
         })
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun setupCreateEntryFAB(view: View) {
+        val createEntryFAB = view.findViewById(R.id.fab_create_entry) as FloatingActionButton
 
-        view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
+        createEntryFAB.setOnClickListener {
             val nextAction = HomeFragmentDirections.nextAction()
+
             findNavController().navigate(nextAction)
         }
     }
