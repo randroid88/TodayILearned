@@ -44,7 +44,11 @@ class HomeFragment : Fragment() {
 
     private fun setupListOfEntries(rootView: View) {
         val recyclerView = rootView.findViewById(R.id.recyclerview) as RecyclerView
-        val adapter = EntryListAdapter(context!!)
+        val adapter = EntryListAdapter(context!!, object : EntryListAdapter.OnEntryClickListener {
+            override fun onEntryClick(entry: Entry) {
+                navigateToEntryEditor(entry.id)
+            }
+        })
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context!!)

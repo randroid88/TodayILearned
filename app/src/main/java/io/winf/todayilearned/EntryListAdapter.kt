@@ -10,7 +10,7 @@ import io.winf.todayilearned.data.Entry
 import io.winf.todayilearned.utils.DateFormatter
 
 
-class EntryListAdapter internal constructor(context: Context) : RecyclerView.Adapter<EntryListAdapter.EntryViewHolder>() {
+class EntryListAdapter internal constructor(context: Context, private val listener: OnEntryClickListener) : RecyclerView.Adapter<EntryListAdapter.EntryViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var cachedEntries = emptyList<Entry>()
