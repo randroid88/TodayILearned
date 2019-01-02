@@ -23,6 +23,11 @@
         android:label="@string/entry_editor"
         tools:layout="@layout/entry_editor_fragment" >
 
+        <argument
+            android:name="entryId"
+            app:argType="integer"
+            android:defaultValue="0"/>
+
         <action
             android:id="@+id/next_action"
             app:enterAnim="@anim/nav_default_enter_anim"

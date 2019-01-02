@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.winf.todayilearned.data.Entry
 import io.winf.todayilearned.data.EntryRepository
 import java.lang.Exception
 
@@ -61,10 +62,14 @@ class HomeFragment : Fragment() {
         val createEntryFAB = view.findViewById(R.id.fab_create_entry) as FloatingActionButton
 
         createEntryFAB.setOnClickListener {
-            val nextAction = HomeFragmentDirections.nextAction()
-
-            findNavController().navigate(nextAction)
+            navigateToEntryEditor()
         }
+    }
+
+    private fun navigateToEntryEditor(entryId: Int = 0) {
+        val nextAction = HomeFragmentDirections.nextAction()
+        nextAction.entryId = entryId
+        findNavController().navigate(nextAction)
     }
 
 }
