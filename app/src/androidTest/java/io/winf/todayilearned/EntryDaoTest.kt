@@ -19,6 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
+import kotlin.random.Random
 
 @RunWith(AndroidJUnit4::class)
 class EntryDaoTest {
@@ -31,7 +32,9 @@ class EntryDaoTest {
     private lateinit var db: EntryRoomDatabase
 
     private lateinit var expectedEntries: List<Entry>
+    private lateinit var expectedEntry: Entry
     private lateinit var actualEntries: List<Entry>
+    private lateinit var actualEntry: Entry
 
     @Before
     fun createDb() {
@@ -88,16 +91,41 @@ class EntryDaoTest {
         thenNoEntriesExist()
     }
 
-    private fun givenEntriesInserted() {
-        givenEntries(3)
+    @Test
+    fun getEntry() {
+        givenEntriesInserted()
+        val entryId = givenEntryExists()
 
-        whenEntriesInserted()
+        whenGetEntryWithId(entryId)
 
-        thenEntriesExist()
+        thenEntryIdIs(entryId)
+        thenEntryTextIsAsSet()
+        thenEntryDateTimeIsAsSet()
+    }
+
+    @Test(expected = KotlinNullPointerException::class)
+    fun getEntry_EntryDoesNotExist() {
+        givenEntriesInserted()
+        val entryId = givenEntryDoesNotExist()
+
+        whenGetEntryWithId(entryId)
+
+        // KotlinNullPointerException in OneTimeObserver.kt because db returns null
+    }
+
+    @Test
+    fun updateEntry() {
+        givenEntriesInserted()
+        val entryId = givenEntryExists()
+        val newEntryText: String = givenNewEntryText(entryId)
+
+        whenUpdateEntry(entryId, newEntryText)
+
+        thenEntryWasUpdated(entryId)
     }
 
     // Helper Kotlin extension for testing LiveData
-    fun <T> LiveData<T>.observeOnce(onChangeHandler: (T) -> Unit) {
+    private fun <T> LiveData<T>.observeOnce(onChangeHandler: (T) -> Unit) {
         val observer = OneTimeObserver(handler = onChangeHandler)
         observe(observer, observer)
     }
@@ -109,6 +137,36 @@ class EntryDaoTest {
         }
     }
 
+    private fun givenEntriesInserted() {
+        givenEntries(NUMBER_OF_ENTRIES)
+
+        whenEntriesInserted()
+
+        thenEntriesExist()
+    }
+
+    private fun givenEntryExists(): Int {
+        val entryId = Random.nextInt(1, NUMBER_OF_ENTRIES)
+        expectedEntry = expectedEntries[entryId - 1]
+        return entryId
+    }
+
+    private fun givenEntryDoesNotExist() = NUMBER_OF_ENTRIES + 1
+
+    private fun givenNewEntryText(entryId: Int): String {
+        val existingEntry = expectedEntries[entryId - 1]
+        val existingEntryText = existingEntry.entryText
+        var entryText = existingEntryText
+
+        while (existingEntryText.equals(entryText)) {
+            entryText = TestArgGenerator.anyString()
+        }
+
+        expectedEntry = Entry(entryText, existingEntry.entryDateTime)
+
+        return entryText
+    }
+
     private fun whenEntriesInserted() {
         for (entry in this.expectedEntries)
             entryDao.insert(entry)
@@ -116,6 +174,16 @@ class EntryDaoTest {
 
     private fun whenAllEntriesDeleted() {
         entryDao.deleteAll()
+    }
+
+    private fun whenGetEntryWithId(entryId: Int) {
+        entryDao.getEntry(entryId).observeOnce {
+            actualEntry = it
+        }
+    }
+
+    private fun whenUpdateEntry(entryId: Int, newEntryText: String) {
+        entryDao.updateEntry(entryId, newEntryText)
     }
 
     private fun thenNoEntriesExist() {
@@ -152,7 +220,27 @@ class EntryDaoTest {
             assertEquals(i + 1, actualEntries[i].id)
         }
     }
+
+    private fun thenEntryIdIs(entryId: Int) {
+        assertEquals(entryId, actualEntry.id)
+    }
+
+    private fun thenEntryTextIsAsSet() {
+        assertEquals(expectedEntry.entryText, actualEntry.entryText)
+    }
+
+    private fun thenEntryDateTimeIsAsSet() {
+        assertEquals(expectedEntry.entryDateTime, actualEntry.entryDateTime)
+    }
+
+    private fun thenEntryWasUpdated(entryId: Int) {
+        whenGetEntryWithId(entryId)
+        thenEntryIdIs(entryId)
+        thenEntryTextIsAsSet()
+        thenEntryDateTimeIsAsSet()
+    }
 }
 
+const val NUMBER_OF_ENTRIES = 3
 
 
