@@ -25,7 +25,7 @@ Where applicable, I want to try and use the following while building this app:
 * Test-Driven Development
 * [Kotlin](https://developer.android.com/kotlin/)
 * [Databinding Library](https://developer.android.com/topic/libraries/data-binding/)
-* [Room Persistance Library](https://developer.android.com/topic/libraries/architecture/room)
+* [Room Persistence Library](https://developer.android.com/topic/libraries/architecture/room)
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
 * [Navigation](https://developer.android.com/topic/libraries/architecture/navigation/)
 * [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager/)
