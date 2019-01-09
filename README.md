@@ -29,3 +29,6 @@ Where applicable, I want to try and use the following while building this app:
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
 * [Navigation](https://developer.android.com/topic/libraries/architecture/navigation/)
 * [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager/)
+
+# Blog
+To follow the development of this app in more detail, be sure to check out the winf.io blog. The [first post](http://blog.winf.io/2019/01/my-attempt-at-clean-next-generation.html) summarizes the project.
