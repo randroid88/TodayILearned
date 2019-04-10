@@ -38,6 +38,7 @@ class EntryEditorFragment : Fragment() {
 
         setTextFromExistingEntry(entryEditText)
         setupSaveButton(view, entryEditText)
+        setupImageButton(view)
     }
 
     private fun setupEntryViewModel() {
@@ -73,6 +74,14 @@ class EntryEditorFragment : Fragment() {
         }
     }
 
+    private fun setupImageButton(view: View) {
+        val addImageButton = view.findViewById(R.id.button_add_image) as Button
+
+        addImageButton.setOnClickListener {
+            performImageSearch()
+        }
+    }
+
     private fun closeKeyboard(entryEditText: EditText) {
         entryEditText.onEditorAction(EditorInfo.IME_ACTION_DONE)
     }
@@ -89,3 +98,6 @@ class EntryEditorFragment : Fragment() {
         findNavController().navigate(EntryEditorFragmentDirections.nextAction())
     }
 }
+
+private const val IMAGE_SEARCH_CODE: Int = 51
+private const val TAG = "EntryEditorFragment"
