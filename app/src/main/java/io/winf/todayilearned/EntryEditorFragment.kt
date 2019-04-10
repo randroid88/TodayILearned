@@ -1,6 +1,9 @@
 package io.winf.todayilearned
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +42,12 @@ class EntryEditorFragment : Fragment() {
         setTextFromExistingEntry(entryEditText)
         setupSaveButton(view, entryEditText)
         setupImageButton(view)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        if (searchReturnedAnImage(requestCode, resultCode)) {
+            saveAndDisplayImage(resultData)
+        }
     }
 
     private fun setupEntryViewModel() {
@@ -82,6 +91,15 @@ class EntryEditorFragment : Fragment() {
         }
     }
 
+    private fun performImageSearch() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
+        }
+
+        startActivityForResult(intent, IMAGE_SEARCH_CODE)
+    }
+
     private fun closeKeyboard(entryEditText: EditText) {
         entryEditText.onEditorAction(EditorInfo.IME_ACTION_DONE)
     }
@@ -96,6 +114,19 @@ class EntryEditorFragment : Fragment() {
 
     private fun navigate() {
         findNavController().navigate(EntryEditorFragmentDirections.nextAction())
+    }
+
+    private fun searchReturnedAnImage(requestCode: Int, resultCode: Int): Boolean {
+        return requestCode == IMAGE_SEARCH_CODE && resultCode == Activity.RESULT_OK
+    }
+
+    private fun saveAndDisplayImage(resultData: Intent?) {
+        resultData?.data?.also { uri ->
+            Log.d(TAG, "Image Uri Returned: $uri")
+            // ToDo: Save a copy of the image
+            // ToDo: Link the image to the entry in the DB
+            // ToDo: Display the image as part of the entry
+        }
     }
 }
 
