@@ -87,17 +87,8 @@ class EntryEditorFragment : Fragment() {
         val addImageButton = view.findViewById(R.id.button_add_image) as Button
 
         addImageButton.setOnClickListener {
-            performImageSearch()
+            startActivityForResult(ImageSearcher().getIntent(), IMAGE_SEARCH_CODE)
         }
-    }
-
-    private fun performImageSearch() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "image/*"
-        }
-
-        startActivityForResult(intent, IMAGE_SEARCH_CODE)
     }
 
     private fun closeKeyboard(entryEditText: EditText) {
