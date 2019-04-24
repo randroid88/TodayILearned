@@ -1,4 +1,4 @@
-package io.winf.todayilearned
+package io.winf.todayilearned.utils
 
 import android.content.Intent
 

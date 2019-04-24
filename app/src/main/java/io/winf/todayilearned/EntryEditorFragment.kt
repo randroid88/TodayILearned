@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.winf.todayilearned.data.Entry
 import io.winf.todayilearned.data.EntryRepository
+import io.winf.todayilearned.utils.ImageSearcher
 import java.lang.Exception
 
 class EntryEditorFragment : Fragment() {
