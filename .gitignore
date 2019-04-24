@@ -17,6 +17,7 @@ local.properties
 .idea/libraries/
 .idea/caches/
 .idea/shelf/
+.idea/codeStyles
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/.name
